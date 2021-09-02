@@ -1,0 +1,30 @@
+<div class="card-container">
+	<div class="todos">
+
+		<!-- submits new todos using 'state' ngModel -->
+		<form (submit)="addTodo()">
+			<input
+				type="text"
+				name="inputTodo"
+				placeholder="Enter todo..."
+				class="todo-input"
+				[(ngModel)]="inputTodo"
+			>
+			<input type="submit" class="todo-submit" />
+		</form>
+
+		<!-- map through todos, uses template strings to display different css for each item -->
+		<div *ngFor="let todo of todos; let i = index;" class="todo {{(
+			todo.completed ? 'done' : ''
+		)}}">
+
+			<!-- map content to card -->
+			<div class="card">
+				<div class="id">{{ i }}</div>
+				<div class="todo-content" (click)="toggleDone(i)">{{ todo.content }}</div>
+				<button class="delete" (click)="deleteTodo(i)">Remove</button>
+			</div>
+
+		</div>
+	</div>
+</div>

@@ -1,0 +1,71 @@
+import { Component, OnInit } from '@angular/core';
+import { Todo } from './../../models/todo';
+
+@Component({
+  selector: 'app-todos',
+  templateUrl: './todos.component.html',
+  styleUrls: ['./todos.component.css']
+})
+export class TodosComponent implements OnInit {
+
+  //component props to pass 
+  title = "todos";
+  id = "todo-list";
+
+  //imports todo class as a Type
+  todos: Todo[];
+
+  inputTodo: string = "";
+
+  constructor() { 
+    this.todos = [];
+  }
+
+  //on component mount
+  ngOnInit(): void {
+    this.todos = [
+      {
+        content: 'First todo',
+        completed: false
+      },
+      {
+        content: 'Second todo',
+        completed: false 
+      }
+    ]
+  }
+
+  // Toggles a todo to the completed state
+  toggleDone(id: number) {
+    this.todos.map((value, i) => {
+      //validate id of todo item
+      if (i === id) {
+        value.completed = !value.completed;
+      }
+    });
+  }
+
+  // Deletes an item from the list
+  deleteTodo(id: number) {
+    this.todos = this.todos.filter((value, i) => i !== id);
+  }
+
+  // Pushes a new todo to the list, clears form
+  addTodo() {
+
+    if (this.inputTodo === "") {
+      return null;
+    } else {
+
+      this.todos.push({
+        content: this.inputTodo,
+        completed: false
+      });
+
+      //clear input after submit
+      this.inputTodo = "";
+      return "pushed to list";
+    }
+  }
+
+}
