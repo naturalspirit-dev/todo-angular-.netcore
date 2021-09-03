@@ -9,7 +9,7 @@ Make sure you have the latest Version of Anuglar installed. Clone this repo, the
 
 ## Demo
 Enter your todo list, then click on items to cross them out.
-<img src="src/assets/demo-1.jpg" width="620px"></img> 
+<img src="src/assets/demo-1.jpg" width="auto"></img> 
 
 Delete all items, or populate your todo list with random items from a random API.
-<img src="src/assets/demo-2.jpg" width="620px"></img>
+<img src="src/assets/demo-2.jpg" width="auto"></img>
