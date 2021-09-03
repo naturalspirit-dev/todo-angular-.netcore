@@ -1,5 +1,7 @@
 .todo {
 	display: flex;
+	width: fit-content;
+	margin: auto;
 }
 
 /* makes every other child haeva different colored background
@@ -17,6 +19,7 @@
 
 .todo .todo-content {
 	flex: 1 1 100%;
+	padding: 2px 15px 2px 4px;
 }
 
 .todo.done .todo-content {
@@ -27,12 +30,15 @@
 	display: block;
 	width: 100%;
 	padding: 10px 15px;
+	margin-left: -15px;
 	appearance: none;
 	border: none;
+	border-radius: 3px;
 	background-color: #F3F3F3;
 	margin-top: 15px;
 	font-size: 20px;
 	outline: none;
+	font-family: 'Shadows Into Light', Arial, sans-serif;
 }
 
 .todo-submit {
@@ -74,10 +80,33 @@
 	padding: 3px 6px;
 	font-weight: 700;
 	transition: all 0.2s ease-in-out;
+}
 
+.delete#all {
+	padding: 9px 12px !important;
 }
 
 .delete:hover {
+	cursor: pointer;
+	transform: translateY(-3px);
+	box-shadow: 0 4px 17px rgba(0, 0, 0, 0.35);
+	fill: rgb(105, 103, 103);
+	opacity: 0.8;
+}
+
+.populate {
+	float: right;
+	border: none;
+	outline: none;
+	border-radius: 3px;
+	background-color: #1976d2;
+	color: #FFF;
+  padding: 9px 12px;
+	font-weight: 700;
+	transition: all 0.2s ease-in-out;
+}
+
+.populate:hover {
 	cursor: pointer;
 	transform: translateY(-3px);
 	box-shadow: 0 4px 17px rgba(0, 0, 0, 0.35);

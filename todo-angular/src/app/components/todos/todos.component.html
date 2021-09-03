@@ -19,12 +19,19 @@
 		)}}">
 
 			<!-- map content to card -->
-			<div class="card">
+			<div class="card" (click)="toggleDone(i)">
 				<div class="id">{{ i }}</div>
-				<div class="todo-content" (click)="toggleDone(i)">{{ todo.content }}</div>
+				<div class="todo-content">{{ todo.content }}</div>
 				<button class="delete" (click)="deleteTodo(i)">Remove</button>
 			</div>
 
 		</div>
+
+	<br />
+	<div class="todo-buttons">
+		<button class="delete" id="all" (click)="deleteAll()">Delete All</button>
+		<button class="populate" (click)="populateList()">Populate From API</button>
+	</div>
+
 	</div>
 </div>
