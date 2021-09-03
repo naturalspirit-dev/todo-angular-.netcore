@@ -1,27 +1,15 @@
-# TodoAngular
+# Todos! In Angular!
+#### <i>Carpe diem... aut non, ejus ad vos.</i>
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.4.
+Just another React developer learning the ropes of Angular. You can use this app to keep a basic list of todo items in your browser, if pen and paper doesnt suit you. This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.4.
 
-## Development server
+## To Run this App Locally
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Make sure you have the latest Version of Anuglar installed. Clone this repo, then cd into /todo-angular. Run `ng serve`. If all goes well you will see the app running on `http://localhost:4200/`.
 
-## Code scaffolding
+## Demo
+Enter your todo list, then click on items to cross them out.
+<img src="src/assets/demo-1.jpg" width="570px"></img>
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Delete all items, or populate your todo list with random items from a random API.
+<img src="src/assets/demo-2.jpg" width="570px"></img>
