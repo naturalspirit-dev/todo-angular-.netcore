@@ -82,10 +82,7 @@ export class TodosComponent implements OnInit {
   populateList() {
     this.deleteAll();
     for (let i = 0; i < 3; i++) {
-      console.log("inserting: ", this.data[this.randomInt()].title)
       let random = this.randomInt();
-      console.log("\n random int: ", random)
-      console.log("\n i: ", i)
 
       this.todos.push({
         content: this.data[this.randomInt()].title,
