@@ -1,7 +1,7 @@
 <div class="card-container">
 	<div class="todos">
 
-		<!-- submits new todos using 'state' ngModel -->
+		<!-- submits new todos using 'state' ngModel, with two-way binding 'bannana in a box' tek -->
 		<form (submit)="addTodo()">
 			<input
 				type="text"
@@ -15,13 +15,13 @@
 
 		<!-- map through todos, uses template strings to display different css for each item -->
 		<div *ngFor="let todo of todos; let i = index;" class="todo {{(
-			todo.completed ? 'done' : ''
+			todo.isComplete ? 'done' : ''
 		)}}">
 
 			<!-- map content to card -->
 			<div class="card" (click)="toggleDone(i)">
 				<div class="id">{{ i }}</div>
-				<div class="todo-content">{{ todo.content }}</div>
+				<div class="todo-content">{{ todo.TodoName }}</div>
 				<button class="delete" (click)="deleteTodo(i)">Remove</button>
 			</div>
 

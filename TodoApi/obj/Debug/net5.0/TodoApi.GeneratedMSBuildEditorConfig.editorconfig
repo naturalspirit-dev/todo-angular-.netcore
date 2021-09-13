@@ -6,5 +6,5 @@ build_property.ProjectTypeGuids =
 build_property.PublishSingleFile = 
 build_property.IncludeAllContentForSelfExtract = 
 build_property._SupportedPlatformList = Android,iOS,Linux,macOS,Windows
-build_property.RootNamespace = TodoApi
-build_property.ProjectDir = C:\Users\joepa\Documents\GitHub\todo-angular\TodoApi\
+build_property.RootNamespace = TodoAPI
+build_property.ProjectDir = C:\Users\joepa\Documents\GitHub\todo-angular\TodoAPI\

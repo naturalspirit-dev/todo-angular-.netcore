@@ -1,11 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
 using TodoApi.Models;
+using ExtensionMethods;
 
 namespace TodoApi.Controllers
 {
@@ -14,107 +16,179 @@ namespace TodoApi.Controllers
     [ApiController]
     public class TodoItemsController : ControllerBase
     {
-        private readonly TodoContext _context;
 
-        public TodoItemsController(TodoContext context)
+        public TodoItemsController(IConfiguration configuration)
         {
-            _context = context;
+            Configuration = configuration;
         }
+
+        public IConfiguration Configuration { get; }
 
         // GET: api/TodoItems
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TodoItemDTO>>> GetTodoItems()
+        public JsonResult GetAll()
         {
-            return await _context.TodoItems
-                .Select(x => ItemToDTO(x))
-                .ToListAsync();
+            string query = @"select * from dbo.TodoItems";
+            DataTable table = new DataTable();
+            string sqlDataSource = Configuration.GetConnectionString("TodoAppConnection");
+            SqlDataReader myReader;
+            List<TodoItemDTO> dtoList = new List<TodoItemDTO>() { };
+            int dtoID = 0;
+            var dtoName = "";
+            var dtoComp = "";
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                {
+                    myReader = myCommand.ExecuteReader();
+
+                    while (myReader.Read())
+                    {
+                        dtoID = (int)myReader.GetInt32(0);
+                        dtoName = myReader.GetString(1);
+                        dtoComp = myReader.GetString(2);
+                        dtoList.Add(ItemToDTO(new TodoItem { Id = dtoID, TodoName = dtoName, IsComplete = dtoComp }));
+                    }
+
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            DataTable newerTable = MyExtensions.ToDataTable(dtoList);
+            return new JsonResult(newerTable);
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<TodoItemDTO>> GetTodoItem(long id)
+        // GET: api/TodoItems
+        [HttpGet("{searchQuery}")]
+        public JsonResult GetItem(string searchQuery)
         {
-            var todoItem = await _context.TodoItems.FindAsync(id);
-
-            if (todoItem == null)
+            string query = @"select * from dbo.TodoItems where TodoName = '" + searchQuery + @"'";
+            DataTable table = new DataTable();
+            string sqlDataSource = Configuration.GetConnectionString("TodoAppConnection");
+            SqlDataReader myReader;
+            List<TodoItemDTO> dtoList = new List<TodoItemDTO>() { };
+            int dtoID = 0;
+            var dtoName = "";
+            var dtoComp = "";
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
             {
-                return NotFound();
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                {
+                    myReader = myCommand.ExecuteReader();
+
+                    while (myReader.Read())
+                    {
+                        dtoID = (int)myReader.GetInt32(0);
+                        dtoName = myReader.GetString(1);
+                        dtoComp = myReader.GetString(2);
+                    }
+
+                    myReader.Close();
+                    myCon.Close();
+                }
             }
-
-            return ItemToDTO(todoItem);
-        }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateTodoItem(long id, TodoItemDTO todoItemDTO)
-        {
-            if (id != todoItemDTO.Id)
-            {
-                return BadRequest();
-            }
-
-            var todoItem = await _context.TodoItems.FindAsync(id);
-            if (todoItem == null)
-            {
-                return NotFound();
-            }
-
-            todoItem.Name = todoItemDTO.Name;
-            todoItem.IsComplete = todoItemDTO.IsComplete;
-
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException) when (!TodoItemExists(id))
+                dtoList.Add(ItemToDTO(new TodoItem { Id = dtoID, TodoName = dtoName, IsComplete = dtoComp }));
+                DataTable newerTable = MyExtensions.ToDataTable(dtoList);
+                return new JsonResult(newerTable);
+            } catch (Exception)
             {
-                return NotFound();
+                return new JsonResult("Bad Request");
             }
-
-            return NoContent();
         }
 
         [HttpPost]
-        public async Task<ActionResult<TodoItemDTO>> CreateTodoItem(TodoItemDTO todoItemDTO)
+        public JsonResult Post(TodoItem todo)
         {
-            var todoItem = new TodoItem
+            string query = @"insert into dbo.TodoItems values ('" + todo.TodoName + @"', 'false', '" + todo.TodoSecret + @"')";
+            DataTable table = new DataTable();
+            string sqlDataSource = Configuration.GetConnectionString("TodoAppConnection");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
             {
-                IsComplete = todoItemDTO.IsComplete,
-                Name = todoItemDTO.Name
-            };
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                {
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
 
-            _context.TodoItems.Add(todoItem);
-            await _context.SaveChangesAsync();
+            return new JsonResult("Added Successfully");
+        }
 
-            return CreatedAtAction(
-                nameof(GetTodoItem),
-                new { id = todoItem.Id },
-                ItemToDTO(todoItem));
+        [HttpPut("{id}")]
+        public JsonResult Put(TodoItem todo, int id)
+        {
+            string query = "";
+            if (todo == null)
+            {
+                return new JsonResult("Bad Request");
+            } else
+            {
+                query = @"update dbo.TodoItems 
+                set TodoName = '" + todo.TodoName + @"', 
+                isComplete = '" + todo.IsComplete + @"',
+                TodoSecret = '" + todo.TodoSecret + @"'
+                where Id = " + id + @" ";
+            }
+            DataTable table = new DataTable();
+            string sqlDataSource = Configuration.GetConnectionString("TodoAppConnection");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                {
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader); ;
+
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+
+            return new JsonResult("Updated Successfully");
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTodoItem(long id)
+        public JsonResult Delete(int id)
         {
-            var todoItem = await _context.TodoItems.FindAsync(id);
-
-            if (todoItem == null)
+            string query = @"delete from dbo.TodoItems where Id = " + id + @"";
+            DataTable table = new DataTable();
+            string sqlDataSource = Configuration.GetConnectionString("TodoAppConnection");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
             {
-                return NotFound();
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                {
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
             }
 
-            _context.TodoItems.Remove(todoItem);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            return new JsonResult("Deleted Successfully");
         }
-
-        private bool TodoItemExists(long id) =>
-            _context.TodoItems.Any(e => e.Id == id);
 
         private static TodoItemDTO ItemToDTO(TodoItem todoItem) =>
-            new TodoItemDTO
-            {
-                Id = todoItem.Id,
-                Name = todoItem.Name,
-                IsComplete = todoItem.IsComplete
-            };
-        }
+        new TodoItemDTO
+        {
+            Id = todoItem.Id,
+            TodoName = todoItem.TodoName,
+            IsComplete = todoItem.IsComplete
+        };
+
+
+    }
 }
+
+
+

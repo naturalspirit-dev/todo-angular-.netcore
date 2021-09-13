@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Todo } from './../../models/todo';
-import { GetApiService } from 'src/app/get-api.service';
+import { TodoItems } from '../../shared/todo-items.model';
+import { TodoItemService } from '../../shared/todo-items.service';
 
 @Component({
   selector: 'app-todos',
@@ -10,35 +10,25 @@ import { GetApiService } from 'src/app/get-api.service';
 export class TodosComponent implements OnInit {
 
   //component props to pass 
-  title = "todos";
+  title = "todo-items";
   id = "todo-list";
 
   //imports todo class as a Type
-  todos: Todo[];
-  data: any;
-
+  todos: TodoItems[] = [];
+  randomData: any = {};
   inputTodo: string = "";
+  inputTodoSecret: string = "";
 
-  constructor(private api:GetApiService) { 
-    this.todos = [];
-    this.data = {};
-  }
+  constructor(private api: TodoItemService, private randomApi: TodoItemService) {  }
 
   //on component mount
   ngOnInit(): void {
-    this.api.apiCall().subscribe((data) => {
-      this.data = data;
+    this.api.refreshList().subscribe((data: any) =>  {
+      this.todos = data;
     });
-    this.todos = [
-      {
-        content: 'First todo',
-        completed: false
-      },
-      {
-        content: 'Second todo',
-        completed: false 
-      }
-    ]
+    this.randomApi.apiCall().subscribe((data: any) => {
+      this.randomData = data;
+    });
   }
 
   // Toggles a todo to the completed state
@@ -46,7 +36,7 @@ export class TodosComponent implements OnInit {
     this.todos.map((value, i) => {
       //validate id of todo item
       if (i === id) {
-        value.completed = !value.completed;
+        value.isComplete = "true";
       }
     });
   }
@@ -68,8 +58,10 @@ export class TodosComponent implements OnInit {
     } else {
 
       this.todos.push({
-        content: this.inputTodo,
-        completed: false
+        Id: NaN, //Id is indexed by SqlClient table
+        TodoName: this.inputTodo,
+        isComplete: "false",
+        TodoSecret: this.inputTodoSecret
       });
 
       //clear input after submit
@@ -85,8 +77,10 @@ export class TodosComponent implements OnInit {
       let random = this.randomInt();
 
       this.todos.push({
-        content: this.data[this.randomInt()].title,
-        completed: false
+        Id: NaN, //Id is indexed by SqlClient table
+        TodoName: this.randomData[this.randomInt()].title,
+        isComplete: "false",
+        TodoSecret: ""
       });
       
     }
