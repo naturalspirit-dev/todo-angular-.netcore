@@ -74,14 +74,19 @@ export class TodosComponent implements OnInit {
     this.todos = [];
   }
 
-  // Pushes a new todo to api, clears form
+  // Pushes a new todo to state and api, clears form
   addTodo() {
     if (this.inputTodo === "") {
       return null;
     } else {
       this.todo = { TodoName: this.inputTodo }
       this.api.addTodo(this.todo).subscribe((data: any) => {
-        alert(data.toString());
+      });
+      this.todos.push({
+        Id: NaN, //Id is indexed by SqlClient table
+        TodoName: this.inputTodo,
+        IsComplete: "false",
+        TodoSecret: this.inputTodoSecret
       });
       //clear input after submit
       this.inputTodo = "";

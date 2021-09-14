@@ -24,8 +24,13 @@
         id="secret" 
         type="button" 
         value="Add Secret Field" 
-        (click)="toggleSecret()">
-      <input class="todo-submit" type="submit" value="Delete Permanently" id="delete" />
+        (click)="toggleSecret()" />
+      <input 
+        class="todo-submit" 
+        type="button" 
+        value="Delete Permanently" 
+        id="delete" 
+        (click)="deleteFromDB(todoName)"/>
     </div>
   </form>
 </div>

@@ -12,7 +12,7 @@
 			>
 			<input type="submit" class="todo-submit" />
 		</form>
-		<app-edit [display]="editDisplay" [todoName]="todoName"></app-edit>
+		<app-edit [display]="editDisplay" [todoName]="todoName" [todos]="todos"></app-edit>
 
 		<!-- map through todos, uses template strings to display different css for each item -->
 		<div *ngFor="let todo of todos; let i = index;" class="todo {{( todo.IsComplete === 'true' ? 'done' : '' )}}">

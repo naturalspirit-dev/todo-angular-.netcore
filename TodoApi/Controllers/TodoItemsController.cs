@@ -157,10 +157,14 @@ namespace TodoApi.Controllers
             return new JsonResult("Updated Successfully");
         }
 
-        [HttpDelete("{id}")]
-        public JsonResult Delete(int id)
+        [HttpDelete("{name}")]
+        public JsonResult Delete(string name)
         {
-            string query = @"delete from dbo.TodoItems where Id = " + id + @"";
+            if(name.Contains("%20")) {
+                name.Replace("%20", " ");
+            }
+            Console.WriteLine(name);
+            string query = @"delete from dbo.TodoItems where TodoName = '" + name + @"'";
             DataTable table = new DataTable();
             string sqlDataSource = Configuration.GetConnectionString("TodoAppConnection");
             SqlDataReader myReader;

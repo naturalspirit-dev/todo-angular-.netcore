@@ -28,8 +28,9 @@ export class TodoItemService {
     return this.http.put(this.APIUrl + '/todoitems/' + name, val);
   }
 
-  deleteTodo(val: any) {
-    return this.http.delete<any>(this.APIUrl + '/todoitems' + val);
+  deleteTodo(name: any) {
+    console.log(name)
+    return this.http.delete(this.APIUrl + `/todoitems/${name}`);
   }
 
   //populates existing records into list property.
