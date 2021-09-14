@@ -21,27 +21,17 @@ export class TodoItemService {
   }
 
   addTodo(val: any) {
-    return this.http.post<any>(this.APIUrl + '/todoitems', val);
+    return this.http.post(this.APIUrl + '/todoitems', val);
   }
 
-  updateTodo(val: any) {
-    return this.http.put<any>(this.APIUrl + '/todoitems', val);
+  updateTodo(name: string, val: any) {
+    return this.http.put(this.APIUrl + '/todoitems/' + name, val);
   }
 
   deleteTodo(val: any) {
     return this.http.delete<any>(this.APIUrl + '/todoitems' + val);
   }
 
-  postTodoItems() {
-    console.log("posting: ", this.baseURL, this.formData)
-    return this.http.post(this.baseURL, this.formData);
-  }
-  putTodoItems() {
-    return this.http.put(`${this.baseURL}/${this.formData.Id}`, this.formData);
-  }
-  deleteTodoItems(id: number) {
-    return this.http.delete(`${this.baseURL}/${id}`);
-  }
   //populates existing records into list property.
   refreshList() {
     return this.http.get(this.APIUrl + '/todoitems');

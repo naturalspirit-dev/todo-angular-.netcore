@@ -122,8 +122,8 @@ namespace TodoApi.Controllers
             return new JsonResult("Added Successfully");
         }
 
-        [HttpPut("{id}")]
-        public JsonResult Put(TodoItem todo, int id)
+        [HttpPut("{name}")]
+        public JsonResult Put(TodoItem todo, string name)
         {
             string query = "";
             if (todo == null)
@@ -135,19 +135,20 @@ namespace TodoApi.Controllers
                 set TodoName = '" + todo.TodoName + @"', 
                 isComplete = '" + todo.IsComplete + @"',
                 TodoSecret = '" + todo.TodoSecret + @"'
-                where Id = " + id + @" ";
+                where TodoName = '" + name + @"' ";
             }
+
             DataTable table = new DataTable();
             string sqlDataSource = Configuration.GetConnectionString("TodoAppConnection");
             SqlDataReader myReader;
+
             using (SqlConnection myCon = new SqlConnection(sqlDataSource))
             {
                 myCon.Open();
                 using (SqlCommand myCommand = new SqlCommand(query, myCon))
                 {
                     myReader = myCommand.ExecuteReader();
-                    table.Load(myReader); ;
-
+                    table.Load(myReader);
                     myReader.Close();
                     myCon.Close();
                 }

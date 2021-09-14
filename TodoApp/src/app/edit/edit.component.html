@@ -1,0 +1,31 @@
+<!-- submits new todos using 'state' ngModel, with two-way binding 'bannana in a box' tek -->
+<div id="editor" class="edit {{( display === true ? 'on' : '' )}}">
+  <form (submit)="editTodo(todoName, todoSecret)">
+    <input 
+      type="text" 
+      name="inputTodo" 
+      class="todo-input"
+      placeholder="Edit todo..." 
+			[(ngModel)]="inputTodo"
+    >
+    <div class="secret-field {{( secret === true ? 'secret-input' : '' )}}">
+      <input 
+        type="text" 
+        name="todoSecret" 
+        class="todo-input"
+        placeholder="Type your secret..." 
+        [(ngModel)]="todoSecret"
+      >
+    </div>
+    <div class="edit-buttons">
+      <input class="todo-submit" type="submit" value="Save" />
+      <input 
+        class="todo-submit {{( secret === true ? 'secret' : '' )}}" 
+        id="secret" 
+        type="button" 
+        value="Add Secret Field" 
+        (click)="toggleSecret()">
+      <input class="todo-submit" type="submit" value="Delete Permanently" id="delete" />
+    </div>
+  </form>
+</div>

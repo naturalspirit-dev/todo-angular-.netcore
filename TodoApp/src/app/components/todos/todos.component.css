@@ -26,6 +26,10 @@
 	text-decoration: line-through;
 }
 
+.submit.off {
+	display: none;
+}
+
 .todo-input {
 	display: block;
 	width: 100%;
@@ -87,6 +91,29 @@
 }
 
 .delete:hover {
+	cursor: pointer;
+	transform: translateY(-3px);
+	box-shadow: 0 4px 17px rgba(0, 0, 0, 0.35);
+	fill: rgb(105, 103, 103);
+	opacity: 0.8;
+}
+
+.edit {
+	appearance: none;
+	border: none;
+	outline: none;
+	border-radius: 3px;
+	background: none;
+	background-color: #512bd4;
+	color: #FFF;
+	padding: 3px 6px;
+	margin-right: 8px;
+	font-weight: 700;
+	transition: all 0.2s ease-in-out;
+}
+
+
+.edit:hover {
 	cursor: pointer;
 	transform: translateY(-3px);
 	box-shadow: 0 4px 17px rgba(0, 0, 0, 0.35);

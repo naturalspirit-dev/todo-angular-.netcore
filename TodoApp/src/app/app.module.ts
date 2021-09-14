@@ -9,11 +9,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { TodosComponent } from './components/todos/todos.component';
 import { TodoItemService } from './shared/todo-items.service';
+import { EditComponent } from './edit/edit.component';
 
 @NgModule({ 
   declarations: [
     AppComponent,
     TodosComponent,
+    EditComponent,
   ],
   imports: [
     BrowserModule,

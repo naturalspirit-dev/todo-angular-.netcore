@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { TodoItems } from '../../shared/todo-items.model';
 import { TodoItemService } from '../../shared/todo-items.service';
 
@@ -12,9 +12,12 @@ export class TodosComponent implements OnInit {
   //component props to pass 
   title = "todo-items";
   id = "todo-list";
+  editDisplay = false;
 
   //imports todo class as a Type
   todos: TodoItems[] = [];
+  todo: any;
+  todoName: any = "404";
   randomData: any = {};
   inputTodo: string = "";
   inputTodoSecret: string = "";
@@ -36,7 +39,27 @@ export class TodosComponent implements OnInit {
     this.todos.map((value, i) => {
       //validate id of todo item
       if (i === id) {
-        value.isComplete = "true";
+        if (value.IsComplete === "true") {
+          value.IsComplete = "false";
+        } else {
+          value.IsComplete = "true";
+        }
+      }
+    });
+  }
+
+  //opens edit component
+  editTodo(id: number, name: any) {
+    this.editDisplay = true;
+    this.todoName = name;
+    //makes sure card doesnt get crossed out after clicking edit button
+    this.todos.map((value, i) => {
+      if (i === id) {
+        if (value.IsComplete === "true") {
+          value.IsComplete = "false";
+        } else {
+          value.IsComplete = "true";
+        }
       }
     });
   }
@@ -51,19 +74,15 @@ export class TodosComponent implements OnInit {
     this.todos = [];
   }
 
-  // Pushes a new todo to the list, clears form
+  // Pushes a new todo to api, clears form
   addTodo() {
     if (this.inputTodo === "") {
       return null;
     } else {
-
-      this.todos.push({
-        Id: NaN, //Id is indexed by SqlClient table
-        TodoName: this.inputTodo,
-        isComplete: "false",
-        TodoSecret: this.inputTodoSecret
+      this.todo = { TodoName: this.inputTodo }
+      this.api.addTodo(this.todo).subscribe((data: any) => {
+        alert(data.toString());
       });
-
       //clear input after submit
       this.inputTodo = "";
       return "pushed to list";
@@ -79,7 +98,7 @@ export class TodosComponent implements OnInit {
       this.todos.push({
         Id: NaN, //Id is indexed by SqlClient table
         TodoName: this.randomData[this.randomInt()].title,
-        isComplete: "false",
+        IsComplete: "false",
         TodoSecret: ""
       });
       

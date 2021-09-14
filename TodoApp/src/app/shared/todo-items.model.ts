@@ -1,6 +1,6 @@
 export class TodoItems {
   Id: number = 0;
   TodoName: string = "";
-  isComplete: string = "";
+  IsComplete: string = "";
   TodoSecret: string = "";
 }

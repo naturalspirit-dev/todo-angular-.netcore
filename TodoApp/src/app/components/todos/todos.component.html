@@ -2,7 +2,7 @@
 	<div class="todos">
 
 		<!-- submits new todos using 'state' ngModel, with two-way binding 'bannana in a box' tek -->
-		<form (submit)="addTodo()">
+		<form (submit)="addTodo()" class="submit {{( editDisplay === true ? 'off' : '' )}}">
 			<input
 				type="text"
 				name="inputTodo"
@@ -12,16 +12,16 @@
 			>
 			<input type="submit" class="todo-submit" />
 		</form>
+		<app-edit [display]="editDisplay" [todoName]="todoName"></app-edit>
 
 		<!-- map through todos, uses template strings to display different css for each item -->
-		<div *ngFor="let todo of todos; let i = index;" class="todo {{(
-			todo.isComplete ? 'done' : ''
-		)}}">
+		<div *ngFor="let todo of todos; let i = index;" class="todo {{( todo.IsComplete === 'true' ? 'done' : '' )}}">
 
 			<!-- map content to card -->
 			<div class="card" (click)="toggleDone(i)">
 				<div class="id">{{ i }}</div>
 				<div class="todo-content">{{ todo.TodoName }}</div>
+				<button class="edit" (click)="editTodo(i, todo.TodoName)">Edit</button>
 				<button class="delete" (click)="deleteTodo(i)">Remove</button>
 			</div>
 
