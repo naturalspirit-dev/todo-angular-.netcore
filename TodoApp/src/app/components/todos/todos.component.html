@@ -12,7 +12,7 @@
 			>
 			<input type="submit" class="todo-submit" />
 		</form>
-		<app-edit [display]="editDisplay" [todoName]="todoName" [todos]="todos"></app-edit>
+		<app-edit (hideSubmit)="closeSubmit()" [display]="editDisplay" [todoName]="todoName" [todos]="todos"></app-edit>
 
 		<!-- map through todos, uses template strings to display different css for each item -->
 		<div *ngFor="let todo of todos; let i = index;" class="todo {{( todo.IsComplete === 'true' ? 'done' : '' )}}">
@@ -21,7 +21,7 @@
 			<div class="card" (click)="toggleDone(i)">
 				<div class="id">{{ i }}</div>
 				<div class="todo-content">{{ todo.TodoName }}</div>
-				<button class="edit" (click)="editTodo(i, todo.TodoName)">Edit</button>
+				<button class="edit {{( showEditButton === true ? '' : 'off' )}}" (click)="editTodo(i, todo.TodoName)">Edit</button>
 				<button class="delete" (click)="deleteTodo(i)">Remove</button>
 			</div>
 
@@ -29,8 +29,8 @@
 
 	<br />
 	<div class="todo-buttons">
+		<button class="populate" (click)="populateList()">Populate Lorem Ipsum</button>
 		<button class="delete" id="all" (click)="deleteAll()">Delete All</button>
-		<button class="populate" (click)="populateList()">Populate From API</button>
 	</div>
 
 	</div>

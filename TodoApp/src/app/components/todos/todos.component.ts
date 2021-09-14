@@ -13,6 +13,7 @@ export class TodosComponent implements OnInit {
   title = "todo-items";
   id = "todo-list";
   editDisplay = false;
+  showEditButton = true;
 
   //imports todo class as a Type
   todos: TodoItems[] = [];
@@ -50,7 +51,7 @@ export class TodosComponent implements OnInit {
 
   //opens edit component
   editTodo(id: number, name: any) {
-    this.editDisplay = true;
+    this.editDisplay = !this.editDisplay;
     this.todoName = name;
     //makes sure card doesnt get crossed out after clicking edit button
     this.todos.map((value, i) => {
@@ -71,17 +72,18 @@ export class TodosComponent implements OnInit {
 
   // Deletes all todos from list
   deleteAll() {
+    this.editDisplay = false;
     this.todos = [];
   }
 
   // Pushes a new todo to state and api, clears form
   addTodo() {
+    this.showEditButton = true;
     if (this.inputTodo === "") {
       return null;
     } else {
       this.todo = { TodoName: this.inputTodo }
-      this.api.addTodo(this.todo).subscribe((data: any) => {
-      });
+      this.api.addTodo(this.todo).subscribe((data: any) => {});
       this.todos.push({
         Id: NaN, //Id is indexed by SqlClient table
         TodoName: this.inputTodo,
@@ -96,21 +98,26 @@ export class TodosComponent implements OnInit {
 
   // Populates todos with random stuff from random API
   populateList() {
+    this.editDisplay = !this.editDisplay;
+    this.showEditButton = false;
     this.deleteAll();
     for (let i = 0; i < 3; i++) {
       let random = this.randomInt();
-
       this.todos.push({
         Id: NaN, //Id is indexed by SqlClient table
         TodoName: this.randomData[this.randomInt()].title,
         IsComplete: "false",
         TodoSecret: ""
-      });
-      
+      });    
     }
   }
 
   randomInt() {
     return Math.floor(Math.random() * 100);
+  }
+
+  closeSubmit() {
+    this.showEditButton = false;
+    this.editDisplay = !this.editDisplay;
   }
 }

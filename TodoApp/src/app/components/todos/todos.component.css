@@ -30,6 +30,10 @@
 	display: none;
 }
 
+.submit.on {
+	display: block;
+}
+
 .todo-input {
 	display: block;
 	width: 100%;
@@ -54,7 +58,7 @@
 	outline: none;
 	border-radius: 3px;
 	background: none;
-	background-color: #1976d2;
+	background-color: #6c429c;
 	color: #FFF;
 	margin: 15px auto;
 
@@ -87,6 +91,7 @@
 }
 
 .delete#all {
+	float: right;
 	padding: 9px 12px !important;
 }
 
@@ -104,14 +109,13 @@
 	outline: none;
 	border-radius: 3px;
 	background: none;
-	background-color: #512bd4;
+	background-color: #6c429c;
 	color: #FFF;
 	padding: 3px 6px;
 	margin-right: 8px;
 	font-weight: 700;
 	transition: all 0.2s ease-in-out;
 }
-
 
 .edit:hover {
 	cursor: pointer;
@@ -121,12 +125,17 @@
 	opacity: 0.8;
 }
 
+
+.edit.off {
+	display: none;
+}
+
 .populate {
-	float: right;
+	float: left;
 	border: none;
 	outline: none;
 	border-radius: 3px;
-	background-color: #1976d2;
+	background-color: #6c429c;
 	color: #FFF;
   padding: 9px 12px;
 	font-weight: 700;

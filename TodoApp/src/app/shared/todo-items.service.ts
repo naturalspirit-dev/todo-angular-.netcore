@@ -29,7 +29,6 @@ export class TodoItemService {
   }
 
   deleteTodo(name: any) {
-    console.log(name)
     return this.http.delete(this.APIUrl + `/todoitems/${name}`);
   }
 
