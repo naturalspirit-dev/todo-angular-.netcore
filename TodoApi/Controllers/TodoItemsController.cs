@@ -49,7 +49,7 @@ namespace TodoApi.Controllers
                         dtoID = (int)myReader.GetInt32(0);
                         dtoName = myReader.GetString(1);
                         dtoComp = myReader.GetString(2);
-                        dtoList.Add(ItemToDTO(new TodoItem { Id = dtoID, TodoName = dtoName, IsComplete = dtoComp }));
+                        dtoList.Add(ItemToDTO(new TodoItem { Id = dtoID, TodoName = dtoName }));
                     }
 
                     myReader.Close();
@@ -92,7 +92,7 @@ namespace TodoApi.Controllers
             }
             try
             {
-                dtoList.Add(ItemToDTO(new TodoItem { Id = dtoID, TodoName = dtoName, IsComplete = dtoComp }));
+                dtoList.Add(ItemToDTO(new TodoItem { Id = dtoID, TodoName = dtoName }));
                 DataTable newerTable = MyExtensions.ToDataTable(dtoList);
                 return new JsonResult(newerTable);
             } catch (Exception)
@@ -136,7 +136,6 @@ namespace TodoApi.Controllers
             {
                 query = @"update dbo.TodoItems 
                 set TodoName = '" + todo.TodoName + @"', 
-                isComplete = '" + todo.IsComplete + @"',
                 TodoSecret = '" + todo.TodoSecret + @"'
                 where TodoName = '" + name + @"' ";
             }
@@ -192,7 +191,6 @@ namespace TodoApi.Controllers
         {
             Id = todoItem.Id,
             TodoName = todoItem.TodoName,
-            IsComplete = todoItem.IsComplete
         };
 
     }

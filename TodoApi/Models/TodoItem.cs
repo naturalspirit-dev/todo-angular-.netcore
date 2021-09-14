@@ -4,7 +4,6 @@ namespace TodoApi.Models
     {
         public int Id { get; set; }
         public string TodoName { get; set; }
-        public string IsComplete { get; set; }
         public string TodoSecret { get; set; }
     }
 }

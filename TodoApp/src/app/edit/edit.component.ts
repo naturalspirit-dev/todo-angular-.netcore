@@ -45,12 +45,9 @@ export class EditComponent implements OnInit {
   //Delete perminately
   deleteFromDB(oldName: any) {
     this.api.deleteTodo(oldName).subscribe((data: any) => { });
-    this.todos.map((value, i) => {
-      if (value.TodoName === oldName) {
-        this.todos.splice(i);
-      }
-    });
-    this.display = !this.display;
+    this.todos = this.todos.filter((value) => value.TodoName !== oldName);
+    this.hideSubmit.emit(!this.hideSubmit);
+    alert("Todo has been deleted from the database");
   }
   
   toggleSecret() {
