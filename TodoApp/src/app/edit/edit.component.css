@@ -1,9 +1,9 @@
-.edit.on {
-  display: block !important;
+.edit {
+	display: none !important;
 }
 
-.edit {
-  display: none !important;
+.edit.on {
+	display: block !important;
 }
 
 #editor {

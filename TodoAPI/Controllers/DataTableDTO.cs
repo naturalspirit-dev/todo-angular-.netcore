@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
+//Returns <List> of any Class back as a DataTable Object
 namespace ExtensionMethods
 {
     public static class MyExtensions

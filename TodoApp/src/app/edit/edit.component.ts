@@ -9,11 +9,13 @@ import { TodoItemService } from '../shared/todo-items.service';
 })
 export class EditComponent implements OnInit {
 
-  // decorate the property with @Input()
+  //Recieve props with @Input()
   @Input() display = false; 
   @Input() todoName = false; 
   @Input() todos: TodoItems[] = [];
+  //Pass back props with @Output()
   @Output() hideSubmit = new EventEmitter<boolean>();
+  //One-way bound
   inputTodo: string = "";
   todoSecret: string = "";
   secret: boolean = false;
@@ -23,6 +25,7 @@ export class EditComponent implements OnInit {
 
   ngOnInit(): void { }
 
+  //Call put request and edit a todo item
   editTodo(oldName: any, secret: any) {
     this.hideSubmit.emit(!this.hideSubmit);
     if (this.inputTodo !== "") {
@@ -39,10 +42,7 @@ export class EditComponent implements OnInit {
     }
   }
 
-  toggleSecret() {
-    this.secret = !this.secret;
-  }
-
+  //Delete perminately
   deleteFromDB(oldName: any) {
     this.api.deleteTodo(oldName).subscribe((data: any) => { });
     this.todos.map((value, i) => {
@@ -52,5 +52,8 @@ export class EditComponent implements OnInit {
     });
     this.display = !this.display;
   }
-
+  
+  toggleSecret() {
+    this.secret = !this.secret;
+  }
 }

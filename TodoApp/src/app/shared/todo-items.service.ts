@@ -4,6 +4,7 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from 'rxjs';
 import { IfStmt } from '@angular/compiler';
 
+//Front end CRUD methods
 @Injectable({
   providedIn: 'root'
 })
@@ -32,12 +33,12 @@ export class TodoItemService {
     return this.http.delete(this.APIUrl + `/todoitems/${name}`);
   }
 
-  //populates existing records into list property.
+  //Populates existing records into list property.
   refreshList() {
     return this.http.get(this.APIUrl + '/todoitems');
   }
 
-  //specific api call (this one is not using async/await)
+  //Random api call (this one is not using async/await)
   apiCall() {
     return this.http.get('https://jsonplaceholder.typicode.com/posts');
   }

@@ -9,6 +9,7 @@ using System.Linq;
 using TodoApi.Models;
 using ExtensionMethods;
 
+//Raw sql query execution
 namespace TodoApi.Controllers
 {
     [Route("api/[controller]")]
@@ -59,7 +60,7 @@ namespace TodoApi.Controllers
             return new JsonResult(newerTable);
         }
 
-        // GET: api/TodoItems
+        // GET: api/TodoItems/{TodoName}
         [HttpGet("{searchQuery}")]
         public JsonResult GetItem(string searchQuery)
         {
@@ -100,6 +101,7 @@ namespace TodoApi.Controllers
             }
         }
 
+        //POST api/TodoItems
         [HttpPost]
         public JsonResult Post(TodoItem todo)
         {
@@ -122,6 +124,7 @@ namespace TodoApi.Controllers
             return new JsonResult("Added Successfully");
         }
 
+        //PUT api/TodoItems/{TodoName}
         [HttpPut("{name}")]
         public JsonResult Put(TodoItem todo, string name)
         {
@@ -157,6 +160,7 @@ namespace TodoApi.Controllers
             return new JsonResult("Updated Successfully");
         }
 
+        //DELETE api/TodoItems/{TodoName}
         [HttpDelete("{name}")]
         public JsonResult Delete(string name)
         {
@@ -182,6 +186,7 @@ namespace TodoApi.Controllers
             return new JsonResult("Deleted Successfully");
         }
 
+        //Returns TodoItemDTO Object 
         private static TodoItemDTO ItemToDTO(TodoItem todoItem) =>
         new TodoItemDTO
         {
@@ -189,7 +194,6 @@ namespace TodoApi.Controllers
             TodoName = todoItem.TodoName,
             IsComplete = todoItem.IsComplete
         };
-
 
     }
 }

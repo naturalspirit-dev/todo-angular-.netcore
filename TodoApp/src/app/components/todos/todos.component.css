@@ -4,11 +4,6 @@
 	margin: auto;
 }
 
-/* makes every other child haeva different colored background
-.todo:nth-child(even) {
-	background-color: #EEE;
-} */
-
 .todo:last-of-type {
 	border-bottom: 0;
 }

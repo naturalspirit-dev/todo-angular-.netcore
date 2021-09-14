@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
 //requires http for api calls
 import { HttpClientModule } from '@angular/common/http';
-
+//components and methods
 import { AppComponent } from './app.component';
 import { TodosComponent } from './components/todos/todos.component';
 import { TodoItemService } from './shared/todo-items.service';
